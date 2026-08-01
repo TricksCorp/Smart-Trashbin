@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Smart Bin Monitor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="frame">
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <div>
+        <p class="eyebrow">Ultrasonic sensor feed</p>
+        <h1>Smart Bin Monitor</h1>
+      </div>
+    </div>
+    <div class="conn" id="connState">
+      <span class="dot" id="connDot"></span>
+      <span id="connLabel">Connecting…</span>
+    </div>
+  </header>
+
+  <main class="panel">
+
+    <section class="visual" aria-label="Bin fill level">
+      <svg class="bin-svg" viewBox="0 0 200 200" role="img" aria-labelledby="binTitle">
+        <title id="binTitle">Bin fill level illustration</title>
+
+        <defs>
+          <clipPath id="binClip">
+            <circle cx="100" cy="100" r="88" />
+          </clipPath>
+          <linearGradient id="fillGradient" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="var(--fill-color-a, #4FB477)" />
+            <stop offset="100%" stop-color="var(--fill-color-b, #7FD3A5)" />
+          </linearGradient>
+        </defs>
+
+        <!-- outer ring -->
+        <circle class="bin-outline" cx="100" cy="100" r="88" />
+
+        <!-- fill, clipped to the circle, height driven by JS -->
+        <g clip-path="url(#binClip)">
+          <rect id="fillRect" x="12" y="188" width="176" height="0" fill="url(#fillGradient)" />
+          <line id="scanLine" class="scan-line" x1="12" y1="188" x2="188" y2="188" />
+        </g>
+
+        <!-- ring drawn again on top so the fill edge stays crisp -->
+        <circle class="bin-outline bin-outline--top" cx="100" cy="100" r="88" />
+      </svg>
+
+      <div class="percentage-readout">
+        <span class="percentage-num" id="percentageNum">--</span><span class="percentage-sign">%</span>
+        <p class="percentage-label">capacity filled</p>
+      </div>
+    </section>
+
+    <section class="info">
+
+      <div class="status-badge" id="statusBadge">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Awaiting first reading</span>
+      </div>
+
+      <p class="warning-line" id="warningLine" hidden>⚠ BIN FULL — NEEDS EMPTYING</p>
+
+      <dl class="stat-grid">
+        <div class="stat">
+          <dt>Lid</dt>
+          <dd id="lidStatus">—</dd>
+        </div>
+        <div class="stat">
+          <dt>Raw distance</dt>
+          <dd id="distanceStat">—</dd>
+        </div>
+        <div class="stat">
+          <dt>Last reading</dt>
+          <dd id="lastUpdated">—</dd>
+        </div>
+      </dl>
+
+      <div class="clock-block">
+        <p class="clock-time" id="clockTime">--:--:--</p>
+        <p class="clock-date" id="clockDate">—</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="foot">
+    <p>Data synced from ESP32 via Supabase · updates live</p>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+</body>
+</html>

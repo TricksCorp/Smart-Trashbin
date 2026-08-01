@@ -1,0 +1,284 @@
+:root {
+  --ink: #1B1D1F;
+  --panel: #24272A;
+  --panel-raised: #2B2F33;
+  --steel: #3A3F44;
+  --yellow: #F2B705;
+  --fog: #B7BDC6;
+  --paper: #ECEEF0;
+
+  --c-empty: #4FB477;
+  --c-filled: #F2B705;
+  --c-critical: #E8862B;
+  --c-full: #E23D3D;
+  --c-processing: #6B8CD9;
+
+  --font-display: 'IBM Plex Mono', monospace;
+  --font-body: 'IBM Plex Sans', sans-serif;
+
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ink);
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(242, 183, 5, 0.05), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(107, 140, 217, 0.06), transparent 45%);
+  color: var(--paper);
+  font-family: var(--font-body);
+}
+
+.frame {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: clamp(1rem, 4vw, 2.5rem) clamp(1rem, 5vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vw, 1.75rem);
+  min-height: 100vh;
+}
+
+/* ---------------- Topbar ---------------- */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.brand { display: flex; align-items: center; gap: 0.75rem; }
+
+.brand-mark {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: var(--yellow);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+.eyebrow {
+  margin: 0 0 0.15rem;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fog);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.conn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--fog);
+  background: var(--panel);
+  border: 1px solid var(--steel);
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-processing);
+  transition: background 0.3s ease;
+}
+.dot.live { background: var(--c-empty); box-shadow: 0 0 0 0 rgba(79,180,119,0.6); animation: pulse 2s infinite; }
+.dot.error { background: var(--c-full); }
+
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(79,180,119,0.5); }
+  70%  { box-shadow: 0 0 0 6px rgba(79,180,119,0); }
+  100% { box-shadow: 0 0 0 0 rgba(79,180,119,0); }
+}
+
+/* ---------------- Main panel ---------------- */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--steel);
+  border-radius: 18px;
+  padding: clamp(1.25rem, 4vw, 2.25rem);
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) 1fr;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  align-items: center;
+}
+
+@media (max-width: 620px) {
+  .panel { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+}
+
+/* ---------------- Bin visual ---------------- */
+.visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.bin-svg {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+}
+
+.bin-outline {
+  fill: var(--panel-raised);
+  stroke: var(--steel);
+  stroke-width: 3;
+}
+
+.bin-outline--top {
+  fill: none;
+  stroke: var(--steel);
+  stroke-width: 3;
+}
+
+#fillRect {
+  transition: y 0.9s cubic-bezier(0.22, 1, 0.36, 1), height 0.9s cubic-bezier(0.22, 1, 0.36, 1), fill 0.4s ease;
+}
+
+.scan-line {
+  stroke: rgba(255,255,255,0.35);
+  stroke-width: 1.5;
+  animation: scan 3.2s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(-6px); opacity: 0.15; }
+}
+
+.percentage-readout { text-align: center; }
+
+.percentage-num {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 6vw, 2.6rem);
+  font-weight: 700;
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+.percentage-sign {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--fog);
+}
+.percentage-label {
+  margin: 0.1rem 0 0;
+  font-size: 0.75rem;
+  color: var(--fog);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ---------------- Info column ---------------- */
+.info { display: flex; flex-direction: column; gap: 1.1rem; min-width: 0; }
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: start;
+  background: var(--panel-raised);
+  border: 1px solid var(--steel);
+  border-radius: 999px;
+  padding: 0.45rem 0.9rem;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+@media (max-width: 620px) { .status-badge { align-self: center; } }
+
+.status-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--c-processing);
+}
+
+.warning-line {
+  margin: 0;
+  color: var(--c-full);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+}
+
+.stat-grid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+@media (max-width: 480px) {
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.stat {
+  background: var(--ink);
+  border: 1px solid var(--steel);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  min-width: 0;
+}
+.stat dt {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fog);
+  margin-bottom: 0.2rem;
+}
+.stat dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  overflow-wrap: break-word;
+}
+
+.clock-block {
+  border-top: 1px dashed var(--steel);
+  padding-top: 0.85rem;
+}
+.clock-time {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  font-variant-numeric: tabular-nums;
+}
+.clock-date {
+  margin: 0.15rem 0 0;
+  font-size: 0.8rem;
+  color: var(--fog);
+}
+
+/* ---------------- Footer ---------------- */
+.foot {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--fog);
+  opacity: 0.7;
+}
+.foot p { margin: 0; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scan-line, .dot.live { animation: none; }
+  #fillRect { transition: none; }
+}
