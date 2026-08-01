@@ -4,7 +4,7 @@
 
 // ======================= LABEL: FILL THESE IN =======================
 const SUPABASE_URL      = "https://bxeaxpbmjgvqcrbqzjql.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ4ZWF4cGJtamd2cWNyYnF6anFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU0OTc0MzAsImV4cCI6MjEwMTA3MzQzMH0.qsEMpWHucU1obIZPqi_LtIthS26uoe2GPMVSQkvWyN8";
+const SUPABASE_ANON_KEY = "sb_publishable_Ag8GOQEZp8AbEsAtdJV7Lg_q0EXh7dQ";
 const TABLE_NAME         = "bin_data";
 // ======================================================================
 
